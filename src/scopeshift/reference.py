@@ -69,9 +69,20 @@ class Reference:
         self.state["version"] += 1
 
     def consume(self, operation: dict):
-        if operation.get("approval_id"):
+        if operation["action"] == "send_message" and operation.get("approval_id"):
             for approval in self.state["approvals"]:
-                if approval["id"] == operation["approval_id"]:
+                matches = (
+                    approval["id"] == operation["approval_id"]
+                    and approval.get("consumed_by") is None
+                    and self.state["time"] < approval["expires_at"]
+                    and all(
+                        approval[k] == operation["identity"][k]
+                        for k in ("principal", "agent", "session")
+                    )
+                    and all(approval[k] == operation[k] for k in ("action", "resource", "grant_id"))
+                    and approval["digest"] == digest(operation["args"])
+                )
+                if matches and self.permits(operation):
                     approval["consumed_by"] = operation["request_id"]
 
     def normalized(self):

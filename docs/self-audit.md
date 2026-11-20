@@ -36,3 +36,16 @@ branch. No live model inference or unrelated credentials were used.
 Remaining limitations are in docs/limitations.md and reports/research.md. Remote
 GitHub API/CI access is an external publication concern and is not inferred from
 successful native Git access. A prepared PR body is not an actual pull request.
+
+## Independent review follow-up
+
+The independent review identified genuine gaps in the original evidence validator
+and metric interpretations despite passing tests. These were not treated as proof
+of correctness. The correction adds mandatory versioned modes, source/schema/run
+checks, externally bound schedules/history, terminal response and cancellation
+validation, primitive fixture causality, explicit exceptions under `python -O`,
+approval applicability, separate decision/dispatch/receipt/effect metrics, actual
+pre-generation delivery contexts and the independent 100-case outcome matrix.
+Previous passing checks remain historical evidence; the revised suite, benchmark,
+reliability campaigns and containers are separately rerun and recorded. PR #1 is
+open and old-revision remote CI succeeded; current CI is tracked per commit.

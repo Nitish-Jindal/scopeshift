@@ -56,3 +56,12 @@ reported in its JSON. Stateful prefix counts include shrinking/re-execution and
 must not be compared as independent completed trials. Seed 20261120 reproduces
 this campaign with the locked Hypothesis version. A minimized three-command C3
 history is retained as a regression fixture and can be replayed without Hypothesis.
+
+## Evidence compatibility after independent review
+
+Current exports use event/envelope schema 2. Regrading production evidence requires
+the externally selected scenario and mode, for example
+`grade(row["evidence"], scenario=row["scenario"], mode="host-fixed-v2")`. Stateful
+grading additionally requires the trusted command list. Historical schema-1 raw
+exports from commit 18c50d4 are intentionally rejected, not silently promoted to
+current verified results. Rerun the benchmark/CLI to generate current evidence.

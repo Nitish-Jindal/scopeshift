@@ -73,11 +73,24 @@ class Store:
 
     @staticmethod
     def event(c, kind, source, request_id=None, **payload):
+        if kind in {"initialized", "run_completed"}:
+            payload["evidence_mode"] = Store.get(c, "evidence_mode")
+            payload["contract_digest"] = Store.get(c, "contract_digest")
+        if kind == "run_completed":
+            fired = Store.get(c, "fired")
+            payload["schedule_outcomes"] = [
+                {
+                    "index": i,
+                    "status": "applied" if i in fired else "unreachable",
+                    "reason": None if i in fired else "checkpoint_not_reached",
+                }
+                for i, _ in enumerate(Store.get(c, "schedule"))
+            ]
         row = c.execute("SELECT seq, body FROM events ORDER BY seq DESC LIMIT 1").fetchone()
         seq = row[0] + 1 if row else 1
         previous = json.loads(row[1])["hash"] if row else "0" * 64
         event = {
-            "schema_version": 1,
+            "schema_version": 2,
             "run_id": Store.get(c, "run_id"),
             "scenario": Store.get(c, "scenario_id"),
             "config": Store.get(c, "config"),
@@ -95,7 +108,7 @@ class Store:
         c.execute("INSERT INTO events(seq,body) VALUES (?,?)", (seq, canonical(event)))
         return seq
 
-    def initialize(self, scenario, config, seed=0, mutant=None):
+    def initialize(self, scenario, config, seed=0, mutant=None, evidence_mode="stateful-v2"):
         from scopeshift.scheduler import validate_schedule
 
         validate_schedule(scenario)
@@ -120,6 +133,8 @@ class Store:
                 "version": scenario.initial.get("version", 1),
                 "time": scenario.initial.get("time", 0),
                 "seed": seed,
+                "evidence_mode": evidence_mode,
+                "contract_digest": digest(scenario.model_dump()),
                 "mutant": mutant,
                 "schedule": [t.model_dump() for t in scenario.schedule],
                 "fired": [],
@@ -144,7 +159,7 @@ class Store:
         with self.transaction() as c:
             self._transition(c, kind, data, visible)
 
-    def _transition(self, c, kind, data, visible=False):
+    def _transition(self, c, kind, data, visible=False, schedule_index=None, checkpoint=None):
         if kind in ("revoke", "narrow"):
             row = c.execute("SELECT body FROM grants WHERE id=?", (data["id"],)).fetchone()
             if not row:
@@ -170,6 +185,8 @@ class Store:
             c,
             "policy_changed",
             "authority",
+            schedule_index=schedule_index,
+            checkpoint=checkpoint,
             transition=kind,
             data=data,
             visible=visible,
@@ -185,8 +202,15 @@ class Store:
             self.event(c, name, "scheduler", request_id, **payload)
             schedule, fired = self.get(c, "schedule"), self.get(c, "fired")
             pending = [(i, t) for i, t in enumerate(schedule) if t["at"] == name and i not in fired]
-            for _, transition in pending:
-                self._transition(c, transition["kind"], transition["data"], transition["visible"])
+            for index, transition in pending:
+                self._transition(
+                    c,
+                    transition["kind"],
+                    transition["data"],
+                    transition["visible"],
+                    schedule_index=index,
+                    checkpoint=name,
+                )
             self.put(c, "fired", fired + [i for i, _ in pending])
 
     def export(self) -> dict:
@@ -194,7 +218,9 @@ class Store:
         try:
             c.execute("BEGIN")  # One coherent read snapshot across all evidence tables.
             return {
-                "schema_version": 1,
+                "schema_version": 2,
+                "evidence_mode": self.get(c, "evidence_mode"),
+                "contract_digest": self.get(c, "contract_digest"),
                 "events": [
                     json.loads(r[0]) for r in c.execute("SELECT body FROM events ORDER BY seq")
                 ],

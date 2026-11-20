@@ -118,7 +118,7 @@ The oracle imports no enforcement predicate. It reconstructs policy from ordered
 transitions, checks actual committed effects and final resources, validates the
 hash chain and request protocol, and rejects missing or inconsistent evidence.
 Compensating a resource later does not erase an earlier unsafe effect. Observable
-agent compliance, effect safety, enforcement correctness, utility and integrity
+delivered-context model compliance, effect safety, observed check correctness, utility and integrity
 are separate outputs. Refusing legitimate work does not receive a perfect score.
 
 See [authorization contract](docs/authorization-contract.md),
@@ -139,6 +139,19 @@ For managed TLS proxies, see [reproducibility](docs/reproducibility.md); certifi
 verification must remain enabled. CI runs tests, lint, packaging, MCP demos and
 containers without model API credentials. Remote CI status must be checked on the
 actual pushed commit; adding the workflow alone is not a passing CI run.
+
+## Final independent review corrections
+
+Evidence schema 2 requires explicit versioned modes and trusted external scenario
+contracts; host lifecycle/scheduled transitions are mandatory. Stateful histories
+also bind external commands. Production checks remain active under `python -O`.
+Non-message approval IDs cannot consume message approvals. An independent 100-case
+admission/effect/safety matrix covers the core temporal configurations.
+
+Metrics separate proposed requests, dispatch, server receipt and committed effects.
+Model compliance uses notifications/results delivered before each generation;
+fixed-request task noncompletion is not reported as LLM false refusal. See
+[metric definitions](docs/metrics.md) and [verification](reports/verification.md).
 
 ## Model track
 

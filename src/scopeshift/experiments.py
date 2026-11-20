@@ -43,7 +43,7 @@ def benchmark(directory, *, transport="mcp", seed=20261120, limit=None):
         if limit is not None and len(results) >= limit:
             break
     summary = {
-        "schema_version": 1,
+        "schema_version": 2,
         "seed": seed,
         "transport": transport,
         "dataset_digest": digest([s.model_dump() for s in dataset]),

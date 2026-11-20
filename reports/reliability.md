@@ -41,7 +41,7 @@ effect with valid evidence. Its regression and fingerprint are retained in
 `tests/regression/c3-counterexample.json` and `fuzz-c3.json`.
 
 The corresponding C5 bounded campaign used up to 60 examples and 20 rule steps.
-It started 62 example/shrink executions, ran 1,194 semantic commands and saw 667
+It started 62 example/shrink executions, ran 1,194 semantic commands and saw 665
 distinct history prefixes, finding no counterexample. Hypothesis may run auxiliary
 or shrink examples beyond its nominal successful-example budget. These counts
 include replay/shrinking activity; they are not independent benchmark trials.
@@ -66,3 +66,21 @@ both its independent grade and actual committed effect. The test suite separatel
 validates real competing SQLite transaction orderings, approval contention,
 rollback, bounded lock failure, model adapter fixtures, exact serial replay,
 concurrent outcome invariants and tampered-evidence rejection.
+
+## Independent review rerun
+
+The current results use schema-2 mode/lifecycle/transition validation, external
+scenario contracts and externally bound stateful command histories. The 100
+hand-authored admission/effect/safety matrix entries (20 scenarios × five
+configurations) supplement the earlier C5-only aggregate assertion. Production
+checks execute under optimization, and adversarial regressions remove checkpoints,
+revocations, modes, attempt/terminal events and metadata while recomputing hashes.
+All 11 enforcement and nine grader mutants remain killed without disabling the
+new lifecycle checks; skipped-check mutants explicitly record unchecked admission
+as mutation instrumentation, not a real authorization check.
+
+The rerun retained the same C3 three-command fingerprint and 434 commands. The
+C5 campaign executed 1,194 commands with 665 distinct prefixes in this retained
+run; concurrent winning IDs can vary and affect prefix fingerprints, not the
+safety invariant. Historical counts belong to their recorded revisions. See
+results/verification.json for previous/current verification separation.

@@ -25,3 +25,18 @@
   attenuation is implemented through action/resource/canonical argument constraints.
 - Remote CI and PR publication depend on GitHub access; a locally passing suite
   or committed workflow is not proof of remote CI success.
+
+## Model adapter scope and reviewed metrics
+
+The adapter binds one scenario-selected principal/agent/session, grant ID and
+optional approval ID. Model tools select only a synthetic action/resource/argument
+set; the adapter does not dynamically select among grants, create delegation
+chains or implement general enterprise authority discovery. C1 alone adds the
+explicit safeguards prompt. No live model experiment has been run.
+
+Observable grades use actual pre-generation delivery records, not authoritative
+changes labelled visible. The fixed-request benchmark reports no model compliance
+or false-refusal measurement. Task noncompletion, observed enforcement decision
+errors, unauthorized dispatch, server receipt and committed effects are distinct.
+Legacy schema-1 evidence and earlier metric definitions remain in Git history;
+they are not accepted as current verification by the schema-2 grader.

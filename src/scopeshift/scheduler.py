@@ -4,6 +4,8 @@ from scopeshift.contracts import CHECKPOINTS, Scenario
 
 
 def validate_schedule(scenario: Scenario) -> None:
+    if scenario.schema_version != 1:
+        raise ValueError("unknown scenario schema")
     if scenario.concurrent_requests and (scenario.schedule or scenario.repeats != 2):
         raise ValueError("Concurrent corpus variants require two requests and no policy schedule")
     positions = []

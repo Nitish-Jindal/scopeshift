@@ -1,4 +1,5 @@
 {
+  "schema_version": 2,
   "false_acceptance": {
     "numerator": 0,
     "denominator": 6
@@ -11,5 +12,6 @@
     "numerator": 3,
     "denominator": 3
   },
-  "benchmark_evidence_regraded": 180
+  "benchmark_externally_bound_regraded": 180,
+  "independent_expected_matrix_cases": 100
 }

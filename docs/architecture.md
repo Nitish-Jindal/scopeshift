@@ -69,3 +69,18 @@ commit, missing ledger and an unsafe effect later compensated.
 Native and MCP runs use the same SQLite sink. Serial replay compares the full
 ledger; concurrent replay compares final resource/message cardinality and safety
 invariants because actual lock acquisition can select a different winner.
+
+## Final review evidence and visibility corrections
+
+The root/event evidence schema is now 2 with explicit fixed-host, model-host,
+stateful and sparse-fixture contracts. See reference-model.md. State transitions
+include their scheduled index/checkpoint; run terminals include applied/unreachable
+schedule dispositions. Stateful terminals bind external commands and explicit
+pending/superseded cancellation. Lifecycle validation is mandatory, optimization-
+safe and bound to externally supplied scenario/mode contracts.
+
+The Inspect adapter runs one generation/tool-call set at a time. It records the
+pre-generation information context, all tool proposals, returned results and
+notifications delivered before the next generation. Thus parallel proposals in
+one assistant turn cannot acquire knowledge from another tool's later outcome.
+Authoritative policy remains independent from that information model.

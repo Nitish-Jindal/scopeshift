@@ -1,45 +1,76 @@
 {
-  "native_tests": {
-    "passed": 267,
-    "failed": 0,
-    "skipped": 0,
-    "runner": "pytest",
-    "in_process_coverage": {
-      "covered_lines": 1202,
-      "num_statements": 1290,
-      "percent_covered": 93.17829457364341,
-      "percent_covered_display": "93",
-      "missing_lines": 88,
-      "excluded_lines": 0,
-      "percent_statements_covered": 93.17829457364341,
-      "percent_statements_covered_display": "93"
+  "schema_version": 2,
+  "pull_request": {
+    "number": 1,
+    "url": "https://github.com/Nitish-Jindal/scopeshift/pull/1",
+    "state": "open"
+  },
+  "previous_verification": {
+    "commit": "18c50d46aa21825cb231b6c580dbd3f68a9a3771",
+    "native_tests_passed": 267,
+    "container_tests_passed": 267,
+    "evidence_schema": 1,
+    "remote_ci": {
+      "status": "success",
+      "observed_run_ids": [
+        44741335221,
+        44688178065
+      ],
+      "url": "https://github.com/Nitish-Jindal/scopeshift/actions/runs/44741335221"
+    },
+    "scope": "Historical verification; incompatible schema-1 evidence is not current verification."
+  },
+  "current_verification": {
+    "source_digest_sha256": "90e134b30723559b254138042dd00231c236e2495e0bed52589fce8d7612626e",
+    "native_tests": {
+      "passed": 419,
+      "failed": 0,
+      "skipped": 0,
+      "coverage": {
+        "covered_lines": 1596,
+        "num_statements": 1689,
+        "percent_covered": 94.49378330373001,
+        "percent_covered_display": "94",
+        "missing_lines": 93,
+        "excluded_lines": 0,
+        "percent_statements_covered": 94.49378330373001,
+        "percent_statements_covered_display": "94"
+      }
+    },
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "docker": {
+      "build": "passed",
+      "offline_tests_passed": 419,
+      "expanded_demo": "passed"
+    },
+    "evidence_schema": 2,
+    "mcp_trials": 180,
+    "externally_bound_regraded": 180,
+    "expected_matrix_cases": 100,
+    "mutations": {
+      "gateway_killed": 11,
+      "gateway_evaluated": 11,
+      "grader_killed": 9,
+      "grader_evaluated": 9
+    },
+    "replay": {
+      "consistent": 180,
+      "executions": 180,
+      "exact_serial_ledgers": 170,
+      "concurrent_invariants": 10
+    },
+    "remote_ci": {
+      "status": "pending_new_revision",
+      "note": "Previous commit CI succeeded; no success inferred for the unpushed corrections."
     }
   },
-  "container_tests": {
-    "passed": 267,
-    "failed": 0,
-    "runtime": "nonroot, read-only, offline Compose"
-  },
-  "checks": {
-    "ruff": "passed",
-    "ruff_format": "passed",
-    "uv_build": "passed",
-    "noneditable_runtime_wheel": "passed",
-    "container_demo": "passed",
-    "benchmark_mcp_trials": 180,
-    "benchmark_regraded": 180,
-    "serial_exact_replays": 170,
-    "concurrent_invariant_replays": 10,
-    "replays_consistent": 180
-  },
-  "live_model_evaluation": "not run; no paid API authorization",
-  "remote_ci": "unverified; api.github.com blocked",
-  "pull_request": "not created; api.github.com blocked",
-  "privacy": "no visibility changes; no secrets configured",
-  "remote_git": {
-    "status": "pushed and remote SHA verified",
-    "implementation_commit": "2ca3c1e3f924b0c77e35821a336b7183e4c8e567",
-    "branch": "codex/scopeshift-complete-mvp"
-  },
-  "publication_blocker": "Runtime CONNECT/API requests to api.github.com forbidden; allowlist addition saved but not applied. PR connector/browser unavailable."
+  "limitations": [
+    "No live/paid model evaluation; fixture outputs/usage are synthetic.",
+    "Finite grammar and targeted mutations are not security proofs.",
+    "Trusted observer/external scenario contracts are not protection against a compromised host.",
+    "Model adapter binds one preselected identity/session/grant/approval.",
+    "Model false-refusal metrics are null; fixed noncompletion is not an LLM refusal."
+  ],
+  "privacy": "Repository visibility unchanged; no merge, paid API use or secret configuration."
 }

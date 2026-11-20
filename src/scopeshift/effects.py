@@ -101,6 +101,17 @@ def commit(
                         reason=reason,
                     )
                     return {"status": "blocked", "reason": reason}
+            if config == "C5" and not atomic:
+                # Mutation instrumentation records the unchecked admission honestly.
+                # It does not call authorize or repair the deliberately missing check.
+                store.event(
+                    c,
+                    "atomic_decision",
+                    "sink",
+                    op.request_id,
+                    allowed=True,
+                    reason="mutant_unchecked_admission",
+                )
             if transaction_hook:
                 transaction_hook(c)
             result = apply_effect(c, op)
@@ -120,17 +131,30 @@ def commit(
                 c.execute("INSERT INTO messages VALUES (?,?)", (effect_id, canonical(result)))
             elif op.action in ("read_document", "search_documents", "get_record"):
                 c.execute("INSERT INTO disclosures VALUES (?,?)", (effect_id, canonical(result)))
-            if op.approval_id:
+            if op.action == "send_message" and op.approval_id:
                 approval_row = c.execute(
                     "SELECT body FROM approvals WHERE id=?", (op.approval_id,)
                 ).fetchone()
                 if approval_row:
                     approval = json.loads(approval_row[0])
-                    approval["consumed_by"] = op.request_id
-                    c.execute(
-                        "UPDATE approvals SET body=? WHERE id=?",
-                        (canonical(approval), op.approval_id),
+                    applicable = (
+                        approval.get("consumed_by") is None
+                        and state["time"] < approval["expires_at"]
+                        and all(
+                            approval[k] == getattr(op.identity, k)
+                            for k in ("principal", "agent", "session")
+                        )
+                        and approval["action"] == op.action
+                        and approval["resource"] == op.resource
+                        and approval["grant_id"] == op.grant_id
+                        and approval["digest"] == op.argument_digest
                     )
+                    if applicable and authorize(state, op)[0]:
+                        approval["consumed_by"] = op.request_id
+                        c.execute(
+                            "UPDATE approvals SET body=? WHERE id=?",
+                            (canonical(approval), op.approval_id),
+                        )
             response = {"status": "committed", "effect_id": effect_id, "result": result}
             c.execute(
                 "UPDATE requests SET result=? WHERE id=?", (canonical(response), op.request_id)

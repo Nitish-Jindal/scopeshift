@@ -106,3 +106,31 @@ Future work includes publication-grade primary-source literature comparison,
 explicitly authorized live-model evaluation, larger schedule grammars, additional
 independent human fixture review, and correctly specified multi-hop delegation.
 All resource effects and data in this implementation are synthetic.
+
+## Final independent review corrections
+
+The experiment was rerun with strict schema-2 evidence. Every production grade
+binds an externally selected scenario/mode; stateful histories additionally bind
+the external commands. All 180 MCP exports regrade successfully under these
+contracts. Unsafe-trial/effect counts in the measured table are unchanged; raw
+evidence, timing summaries, metrics and SVG were regenerated, not reused.
+
+The revised metrics no longer identify receipt/dispatch with protected commitment:
+C5 received four currently unauthorized requests out of 28 server entries and
+committed zero unsafe protected effects out of 16 effects. This demonstrates the
+effect-boundary guarantee, not a claim that its invocation decision never becomes
+stale. False denials are counted only at normatively permitted enforced checks
+(0/44 in the C5 run); task noncompletion is separate. Model false refusal and
+fixed-track observable-model compliance are not measured and remain null.
+
+The stale-authority denominator now requires earlier permitted authority at a
+recorded boundary, rather than an initial grant alone. Revocation effectiveness
+requires an actually applied matching revocation in an eligible fixed trial.
+See docs/metrics.md for full definitions and complementary/unsupported quantities.
+
+Inspect fixture tests verify notifications delivered before proposals and only
+after proposals, with all proposals in one generation bound to its prior context.
+A policy change labelled visible is not sufficient evidence that an agent saw it.
+Approval bookkeeping ignores non-message token IDs and does not consume unrelated,
+expired, used or otherwise inapplicable message approvals, while deliberately
+unsafe baselines remain unsafe. No live-model experiment was added.

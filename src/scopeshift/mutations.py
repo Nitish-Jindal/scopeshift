@@ -4,6 +4,7 @@ from pathlib import Path
 
 from scopeshift.dataset import select
 from scopeshift.engine import run
+from scopeshift.evidence import require
 from scopeshift.fixtures import EVIDENCE_LABELS, evidence_fixture
 from scopeshift.oracle import grade
 
@@ -53,7 +54,7 @@ def campaign(directory):
         changed = []
         for name, expected in EVIDENCE_LABELS.items():
             base = grade(evidence_fixture(name))["outcome"]
-            assert base == expected, (name, base, expected)
+            require(base == expected, (name, base, expected))
             if grade(evidence_fixture(name), mutant)["outcome"] != expected:
                 changed.append(name)
         grader.append(

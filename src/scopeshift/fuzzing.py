@@ -14,6 +14,7 @@ from hypothesis.stateful import RuleBasedStateMachine, precondition, rule, run_s
 from scopeshift.contracts import Operation, Scenario, canonical, digest
 from scopeshift.dataset import select
 from scopeshift.effects import execute
+from scopeshift.evidence import require
 from scopeshift.gateway import invocation, register
 from scopeshift.oracle import grade
 from scopeshift.reference import Reference
@@ -38,7 +39,7 @@ def initial_scenario():
 
 class History:
     def __init__(self, scenario, config, directory):
-        self.scenario, self.config = scenario, config
+        self.scenario, self.config = (scenario, config)
         self.store = Store(Path(directory) / "run.sqlite3")
         self.store.initialize(scenario, config)
         self.model = Reference(scenario.initial)
@@ -55,6 +56,15 @@ class History:
             self.store.transition(command["transition"], command["data"])
             self.model.transition(command["transition"], command["data"])
         elif kind == "prepare":
+            if self.pending:
+                with self.store.transaction() as c:
+                    self.store.event(
+                        c,
+                        "request_cancelled",
+                        "host",
+                        self.pending[0].request_id,
+                        reason="superseded",
+                    )
             op = Operation.model_validate(command["operation"])
             registered = register(self.store, op, self.config, self.snapshot)
             allowed = registered and invocation(self.store, op, self.config, self.snapshot)
@@ -75,20 +85,23 @@ class History:
                         self.violation = True
             elif self.config == "C5" and expected and dispatched:
                 raise AssertionError(f"false denial: {result}")
+            self.respond(op, result)
             self.pending = None
         elif kind == "retry":
             op = Operation.model_validate(command["operation"])
             count = len(self.store.export()["effects"])
-            assert register(self.store, op, self.config, self.snapshot)
-            assert invocation(self.store, op, self.config, self.snapshot)
-            assert execute(self.store, op.request_id, op.action)["status"] == "committed"
-            assert len(self.store.export()["effects"]) == count
+            require(register(self.store, op, self.config, self.snapshot), "validation failed")
+            require(invocation(self.store, op, self.config, self.snapshot), "validation failed")
+            result = execute(self.store, op.request_id, op.action)
+            require(result["status"] == "committed", "validation failed")
+            self.respond(op, result)
+            require(len(self.store.export()["effects"]) == count, "validation failed")
         elif kind == "concurrent":
             operations = [Operation.model_validate(item) for item in command["operations"]]
             expected = self.model.permits(operations[0].model_dump())
             allowed = []
             for op in operations:
-                assert register(self.store, op, self.config, self.snapshot)
+                require(register(self.store, op, self.config, self.snapshot), "validation failed")
                 allowed.append(invocation(self.store, op, self.config, self.snapshot))
             barrier = threading.Barrier(2)
 
@@ -103,24 +116,44 @@ class History:
 
             with ThreadPoolExecutor(max_workers=2) as pool:
                 results = list(pool.map(worker, zip(operations, allowed, strict=True)))
+            for op, response in zip(operations, results, strict=True):
+                self.respond(op, response)
             winners = [
                 op
                 for op, response in zip(operations, results, strict=True)
                 if response["status"] == "committed"
             ]
-            assert len(winners) == int(expected)
+            require(len(winners) == int(expected), "validation failed")
             for op in winners:
                 self.model.consume(op.model_dump())
                 self.committed[op.request_id] = op
         with self.store.transaction() as c:
-            assert self.model.normalized() == self.store.state(c)
+            require(self.model.normalized() == self.store.state(c), "validation failed")
         return not self.violation
+
+    def respond(self, op, response):
+        self.store.checkpoint("tool_response", op.request_id, response=response)
+        self.store.checkpoint("request_completion", op.request_id)
 
     def finish(self):
         with self.store.transaction() as c:
-            self.store.event(c, "run_completed", "host")
-        result = grade(self.store.export())
-        assert result["integrity"], result
+            if self.pending:
+                self.store.event(
+                    c,
+                    "request_cancelled",
+                    "host",
+                    self.pending[0].request_id,
+                    reason="pending_at_end",
+                )
+                self.pending = None
+            self.store.event(c, "run_completed", "host", history_digest=digest(self.commands))
+        result = grade(
+            self.store.export(),
+            scenario=self.scenario.model_dump(),
+            mode="stateful-v2",
+            history=self.commands,
+        )
+        require(result["integrity"], result)
         return result
 
 
@@ -197,8 +230,6 @@ def campaign(directory, *, config="C5", seed_value=20261120, examples=60, steps=
 
         @rule(change=st.sampled_from(["unrelated", "revoke", "narrow"]))
         def authorization_to_effect(self, change):
-            # One grammar production spans three real transaction boundaries.
-            # Hypothesis can shrink to the minimal prepare/change/effect history.
             self.counter += 1
             op = select("authorized_update").operation.model_copy(
                 update={"request_id": f"r{self.counter}"}
@@ -207,11 +238,9 @@ def campaign(directory, *, config="C5", seed_value=20261120, examples=60, steps=
             data = (
                 {"id": "g1"}
                 if change == "revoke"
-                else (
-                    {"id": "g1", "constraints": {"value": "other"}}
-                    if change == "narrow"
-                    else {"note": "other"}
-                )
+                else {"id": "g1", "constraints": {"value": "other"}}
+                if change == "narrow"
+                else {"note": "other"}
             )
             self.issue({"kind": "transition", "transition": change, "data": data})
             self.issue({"kind": "effect"})

@@ -9,6 +9,7 @@ from time import perf_counter
 
 from scopeshift.contracts import Configuration, Scenario, canonical
 from scopeshift.effects import execute
+from scopeshift.evidence import require
 from scopeshift.gateway import invocation, register
 from scopeshift.oracle import grade
 from scopeshift.storage import Store
@@ -26,14 +27,14 @@ async def run_scenario(
     allow_c1=False,
 ) -> dict:
     Configuration(config)
-    if config == "C1" and not allow_c1:
+    if config == "C1" and (not allow_c1):
         raise ValueError("C1 prompt compliance is only applicable to the model track")
     if transport not in {"native", "mcp"}:
         raise ValueError("unknown transport")
     directory = Path(directory)
     directory.mkdir(parents=True, exist_ok=True)
     store = Store(directory / "run.sqlite3")
-    store.initialize(scenario, config, seed, mutant)
+    store.initialize(scenario, config, seed, mutant, evidence_mode="host-fixed-v2")
     start = perf_counter()
     responses = []
     async with AsyncExitStack() as stack:
@@ -44,13 +45,13 @@ async def run_scenario(
             if transport == "mcp"
             else None
         )
-        # Session-init transitions occur before capture, unlike discovery-time changes.
         store.checkpoint("session_initialization")
         with store.transaction() as c:
             snapshot = store.state(c)
+            store.event(c, "session_snapshot", "host", state=snapshot)
         if wire:
             tools = await wire.list_tools()
-            assert len(tools) == 5
+            require(len(tools) == 5, "validation failed")
         store.checkpoint("tool_discovery")
         operations = []
         for index in range(scenario.repeats):
@@ -58,7 +59,6 @@ async def run_scenario(
             if index and scenario.duplicate_new_id:
                 op = op.model_copy(update={"request_id": f"{op.request_id}-{index}"})
             operations.append(op)
-
         effect_gate = threading.Barrier(2) if scenario.concurrent_requests else None
 
         async def request(op, gate=None):
@@ -76,10 +76,8 @@ async def run_scenario(
                 response = (
                     await wire.call(op.action, op.request_id)
                     if wire
-                    else (
-                        await asyncio.to_thread(
-                            execute, store, op.request_id, op.action, effect_gate
-                        )
+                    else await asyncio.to_thread(
+                        execute, store, op.request_id, op.action, effect_gate
                     )
                 )
             store.checkpoint("tool_response", op.request_id, response=response)
@@ -87,15 +85,13 @@ async def run_scenario(
             return response
 
         if scenario.concurrent_requests:
-            # Simultaneously dispatch independent requests; the sink serializes writes.
-            # These two fixed concurrent variants authorize both at invocation time.
             gate = asyncio.Barrier(len(operations))
             responses = list(await asyncio.gather(*(request(op, gate) for op in operations)))
         else:
             for op in operations:
                 responses.append(await request(op))
     with store.transaction() as c:
-        store.event(c, "run_completed", "host", protocol="host-v1", responses=responses)
+        store.event(c, "run_completed", "host", responses=responses)
     evidence = store.export()
     result = {
         "scenario": scenario.model_dump(),
@@ -105,7 +101,7 @@ async def run_scenario(
         "mutant": mutant,
         "responses": responses,
         "duration_ms": (perf_counter() - start) * 1000,
-        "grade": grade(evidence),
+        "grade": grade(evidence, scenario=scenario.model_dump(), mode="host-fixed-v2"),
         "evidence": evidence,
     }
     (directory / "evidence.json").write_text(canonical(result) + "\n")
@@ -132,8 +128,8 @@ def replay(path, directory):
         consistent = (
             current["grade"]["effect_safety"] == original["grade"]["effect_safety"]
             and current["grade"]["effect_count"] == original["grade"]["effect_count"]
-            and current["evidence"]["records"] == original["evidence"]["records"]
-            and current["evidence"]["messages"] == original["evidence"]["messages"]
+            and (current["evidence"]["records"] == original["evidence"]["records"])
+            and (current["evidence"]["messages"] == original["evidence"]["messages"])
         )
     else:
         consistent = current["evidence"] == original["evidence"]

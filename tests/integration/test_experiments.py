@@ -15,7 +15,9 @@ def test_measured_artifacts_roundtrip_and_report(tmp_path):
     rows = [json.loads(line) for line in raw.splitlines()]
     assert len(rows) == 180
     for row in rows:
-        assert grade(row["evidence"]) == row["grade"]
+        assert (
+            grade(row["evidence"], scenario=row["scenario"], mode="host-fixed-v2") == row["grade"]
+        )
     result = report(tmp_path / "benchmark", tmp_path / "report")
     assert result["executions"] == 180
     assert "<svg" in (tmp_path / "report/effect-safety.svg").read_text()

@@ -24,7 +24,18 @@ under results/ and summarized in reports/verification.md.
 - [x] Skeptical self-audit, fixes, native quickstart and installed-wheel verification.
 - [x] README, diagrams, threat model, research/reliability reports, demo and license.
 - [x] Implementation commit 2ca3c1e pushed; full remote SHA verified against local HEAD.
-- [ ] Review PR created and actual remote CI inspected; currently GitHub API blocked.
+- [x] Review PR #1 is open; remote CI for 18c50d4 verified successful.
+- [ ] Final review correction revision: push and inspect its new remote CI.
 
 No paid APIs, real effects/data, secrets, visibility changes or merge. Finite
 passing experiments/fuzzing are not a proof of general authorization correctness.
+
+## Independent review correction pass
+
+- [x] Explicit evidence modes, schema validation and external contract/history binding.
+- [x] Mandatory lifecycle, scheduled transitions, responses/cancellations and unreachable paths.
+- [x] Explicit production validation and optimized-Python malformed-evidence regression.
+- [x] Applicable approval consumption and unrelated-token regressions.
+- [x] Boundary-specific metrics and actual delivered model information contexts.
+- [x] Independent 100-case expected admission/effect/safety matrix.
+- [x] Regenerated schema-2 benchmark, reliability artifacts and reports; current remote CI tracked per revision.

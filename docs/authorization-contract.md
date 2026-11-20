@@ -101,3 +101,39 @@ status and a pushed review branch. Final report must include components,
 architecture, MCP/tests/results/mutations/fuzzing/exploration/replay/metrics,
 Docker/live/CI/self-audit/limitations, exact commands, branch/commit/PR, application
 description and APPLICATION-READY / APPLICATION-READY WITH LIMITATIONS / INCOMPLETE.
+
+## Final review clarifications (evidence schema 2)
+
+A non-message operation ignores approval identifiers for authorization and token
+consumption; it cannot burn a message approval. The complete operation, including
+that serialized field, still binds idempotent request identity. A message consumes
+an approval only if its normative operation is currently permitted and that token
+is live, unused and bound to the exact identity/action/resource/grant/arguments.
+The permission and token checks occur in the same C5 transaction. Baseline
+configurations may still commit unauthorized synthetic effects; bookkeeping does
+not consume unrelated, expired or already used approvals and does not repair
+those deliberately unsafe effects.
+
+Evidence has an explicit schema-2 envelope, event schema and versioned execution
+mode. `host-fixed-v2` and `host-model-v2` require the host lifecycle; `stateful-v2`
+binds primitive histories to externally supplied command sequences, including
+cancellations; `fixture-v2` binds sparse independently authored histories to the
+trusted fixture registry and still requires primitive attempt/commit causality.
+Missing, unknown, conflicting or legacy metadata is invalid. Production grading
+requires the externally selected scenario and mode. Initial and terminal contract
+digests must match that contract. Declared schedules must actually occur after
+their first applicable checkpoint; unvisited conditional/model paths are explicitly
+marked unreachable and checked against the observed complete lifecycle.
+
+All production evidence validation uses explicit checks raising EvidenceError,
+not assertions; malformed evidence remains invalid under Python optimization.
+This protects consistency under the trusted-observer threat model, not against a
+compromised host fabricating both the observer and external normative inputs.
+
+An authoritative change marked visible is only eligible for notification. It is
+not evidence of delivery. Model generations bind to the information actually
+provided before that generation. Returned tool messages and policy notifications
+are logged at delivery boundaries. A notification arriving after a proposal cannot
+retroactively make that proposal knowingly unauthorized. Proposals emitted in the
+same assistant generation share the same prior information even if tool executions
+interleave. Hidden authoritative transitions still govern effect safety.

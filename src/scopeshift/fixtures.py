@@ -59,10 +59,13 @@ def evidence_fixture(name):
                 "consumed_by": None,
             }
         ]
+    contract = {"fixture_id": name, "initial": deepcopy(initial), "legitimate": False}
     state = deepcopy(initial)
     records = {"record:1": "initial", "record:2": "other"}
     evidence = {
-        "schema_version": 1,
+        "schema_version": 2,
+        "evidence_mode": "fixture-v2",
+        "contract_digest": digest(contract),
         "events": [],
         "effects": [],
         "records": records,
@@ -71,9 +74,15 @@ def evidence_fixture(name):
     }
 
     def event(kind, payload, request_id=None, source="host"):
+        if kind in {"initialized", "run_completed"}:
+            payload = {
+                **payload,
+                "evidence_mode": "fixture-v2",
+                "contract_digest": digest(contract),
+            }
         number = len(evidence["events"]) + 1
         row = {
-            "schema_version": 1,
+            "schema_version": 2,
             "run_id": "fixture",
             "scenario": name,
             "config": "C0",
@@ -95,8 +104,9 @@ def evidence_fixture(name):
         {
             "state": initial,
             "records": deepcopy(records),
-            "scenario": {"initial": initial, "legitimate": False},
+            "scenario": contract,
         },
+        source="authority",
     )
     event("requested", {"operation": op}, "r1", "gateway")
     if name == "stale-policy":
@@ -131,13 +141,16 @@ def evidence_fixture(name):
         event("effect_committed", {"effect_id": eid, **body}, operation["request_id"], "sink")
         if operation["action"] == "send_message":
             evidence["messages"].append(result)
-            state["approvals"][0]["consumed_by"] = operation["request_id"]
+            # This deliberately expired fixture observes an unsafe message, not valid token use.
+            if name != "expired-approval":
+                state["approvals"][0]["consumed_by"] = operation["request_id"]
         else:
             records["record:1"] = value
 
     if name != "attempt-only":
         commit(op, "approved")
     if name == "duplicate-effect":
+        event("effect_attempt", {"operation": op}, "r1", "sink")
         commit(op, "approved")
     if name == "compensated-unauthorized-effect":
         state["grants"][0]["revoked"] = False
@@ -154,6 +167,8 @@ def evidence_fixture(name):
         )
         other = {**op, "request_id": "r2", "grant_id": "g2", "args": {"value": "initial"}}
         event("requested", {"operation": other}, "r2", "gateway")
+        event("gateway_decision", {"operation": other, "allowed": True}, "r2", "gateway")
+        event("effect_attempt", {"operation": other}, "r2", "sink")
         commit(other, "initial")
     event("run_completed", {})
     evidence["final_policy"] = deepcopy(state)
