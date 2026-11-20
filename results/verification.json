@@ -3,7 +3,9 @@
   "pull_request": {
     "number": 1,
     "url": "https://github.com/Nitish-Jindal/scopeshift/pull/1",
-    "state": "open"
+    "state": "merged",
+    "merge_commit": "c1cbf657ab975369fe653ff99c304668d20758bc",
+    "merged_at": "2026-11-20T16:58:22Z"
   },
   "previous_verification": {
     "commit": "18c50d46aa21825cb231b6c580dbd3f68a9a3771",
@@ -90,7 +92,7 @@
     "Model adapter binds one preselected identity/session/grant/approval.",
     "Model false-refusal metrics are null; fixed noncompletion is not an LLM refusal."
   ],
-  "privacy": "Repository visibility unchanged; no merge, paid API use or secret configuration.",
+  "privacy": "Historical implementation verification did not change visibility, merge the PR, use paid model APIs or configure secrets. The owner subsequently merged PR #1 and made the repository public.",
   "intermediate_verification": {
     "commit": "31fa782e426f3340f2fed9cdeb5c5b4b18cfe3b7",
     "native_and_container_tests_passed": 419,
@@ -101,5 +103,11 @@
         44746272518
       ]
     }
+  },
+  "publication": {
+    "repository_visibility": "public",
+    "default_branch": "main",
+    "merge_commit": "c1cbf657ab975369fe653ff99c304668d20758bc",
+    "scope": "Owner publication after implementation verification; documentation cleanup does not rerun or replace the recorded experiments."
   }
 }

@@ -95,9 +95,11 @@ Maintain a resumable checklist, concise docs, architecture diagrams, research
 report, demo and interview walkthrough; use an explained open-source license.
 Audit baseline isolation, C5 atomicity/contention, oracle independence, evidence
 and final state, mutation sensitivity, replay, all reported metrics and secrets.
-Push a dedicated review branch and create a PR; never merge or change privacy.
-Completion requires working, reproducible, verified artifacts, accurate live/CI
-status and a pushed review branch. Final report must include components,
+The original review-branch workflow was completed through PR #1, now merged into
+public main. Further branch, merge and visibility actions follow explicit current
+user instructions. Completion requires working, reproducible, verified artifacts
+and accurate live/CI status; preserve the historical verification revisions. Final
+reports include components,
 architecture, MCP/tests/results/mutations/fuzzing/exploration/replay/metrics,
 Docker/live/CI/self-audit/limitations, exact commands, branch/commit/PR, application
 description and APPLICATION-READY / APPLICATION-READY WITH LIMITATIONS / INCOMPLETE.

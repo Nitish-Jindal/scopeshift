@@ -1,3 +1,10 @@
+> **Historical implementation brief.** The original specification below is
+> preserved for provenance, including the initial private-repository and
+> review-branch workflow. The implementation and final corrections are now merged
+> into public `main` through PR #1. Current status and verified revisions are in
+> [the verification report](reports/verification.md); current user instructions
+> govern further work. The original 23-section text follows unchanged.
+
 # ScopeShift — Complete Autonomous Project Implementation
 
 ## 1. Your Role and Execution Mandate

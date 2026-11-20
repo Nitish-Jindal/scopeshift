@@ -1,9 +1,11 @@
-# ScopeShift final review handoff
+# ScopeShift development and verification handoff
 
-Updated 2026-11-20 (Asia/Kolkata). Continue on
-`codex/scopeshift-complete-mvp`; PR #1 is open:
+Updated 2026-11-20 (Asia/Kolkata). The repository is public. PR #1 was merged
+into `main` at `c1cbf657ab975369fe653ff99c304668d20758bc`:
 https://github.com/Nitish-Jindal/scopeshift/pull/1.
-Never merge or change repository visibility.
+The current documentation cleanup is explicitly authorized on `main`; future
+work should follow the branch and scope requested by its task. Do not perform
+additional merges or visibility changes without explicit authorization.
 
 The independent review corrections extend the existing implementation; core
 transaction architecture, actual two-server MCP, separate reference model and
@@ -35,7 +37,8 @@ source digest, CI observations and retained evidence. Commit 18c50d46 had 267
 passing tests and successful remote CI; those are historical checks, not current
 schema-2 evidence. Its successful workflow is confirmed at:
 https://github.com/Nitish-Jindal/scopeshift/actions/runs/44741335221.
-The prior API-publication blocker is obsolete; API access and PR #1 are confirmed.
+The historical API-publication blocker was resolved; PR #1 is now merged and
+API access is working. Verification links below refer to their recorded revisions.
 Correction source 4683410e47e785f49bdc824afe6a853499b0245d passed both remote
 workflows 44747732315 and 44747724360, including native and container jobs.
 The verification-only follow-up preserves the recorded tested source digest.

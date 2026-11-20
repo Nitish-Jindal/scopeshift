@@ -3,9 +3,10 @@
 ## Current verdict and provenance
 
 **APPLICATION-READY WITH LIMITATIONS for the verified synthetic benchmark.**
-PR [#1](https://github.com/Nitish-Jindal/scopeshift/pull/1) is open on
-`codex/scopeshift-complete-mvp`. No merge or visibility change occurred.
-The earlier API-publication blocker is obsolete: GitHub access now works.
+PR [#1](https://github.com/Nitish-Jindal/scopeshift/pull/1) is merged into public
+`main` at `c1cbf657ab975369fe653ff99c304668d20758bc`. Implementation verification
+was performed on the former review branch; the owner subsequently merged and
+published the repository. The earlier API-publication blocker is resolved.
 
 Previous verification belongs to commit
 `18c50d46aa21825cb231b6c580dbd3f68a9a3771`: 267 native/container tests and
@@ -127,8 +128,9 @@ model knowledge or a compromised trusted host. Broader exploration, primary-sour
 research comparison and external review of these corrections remain future work.
 
 See HANDOFF.md, docs/self-audit.md, reports/research.md and reports/reliability.md.
-No project restart, paid API use, unrelated credential access, merge or repository
-publication occurred.
+No project restart, paid model API use or unrelated credential access occurred
+during verification. Repository publication and the PR #1 merge were subsequent
+owner actions, distinct from the historical implementation/verification runs.
 
 An intermediate correction revision, 31fa782e426f3340f2fed9cdeb5c5b4b18cfe3b7,
 passed 419 local/container tests and both remote CI runs 44746281271 and
@@ -140,3 +142,12 @@ Final source CI: both [PR workflow 44747732315](https://github.com/Nitish-Jindal
 and [push workflow 44747724360](https://github.com/Nitish-Jindal/scopeshift/actions/runs/44747724360)
 completed successfully for 4683410, including native and container jobs. The source
 digest in results/verification.json is unchanged by this verification-only record.
+
+## Public-facing documentation maintenance
+
+The post-merge cleanup updates status and presentation on main without modifying
+implementation, dependencies, measured results or the tested source digest.
+Credential/history review scope and its limitations are recorded in
+[publication-review.md](../docs/publication-review.md). The recorded test counts
+and experimental results above are verification provenance, not a claim that
+a documentation edit reran the benchmark.

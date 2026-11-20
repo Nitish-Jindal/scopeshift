@@ -1,5 +1,7 @@
 # ScopeShift
 
+[![CI](https://github.com/Nitish-Jindal/scopeshift/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/Nitish-Jindal/scopeshift/actions/workflows/verify.yml?query=branch%3Amain)
+
 **A Temporal Authorization Consistency Benchmark for MCP-Enabled AI Agents**
 
 An operation can be authorized at invocation and unauthorized when its effect
@@ -8,12 +10,36 @@ a synthetic enterprise environment, controlled policy transitions, and an
 independent effect-history oracle. It evaluates local application authorization,
 not a general security guarantee of the MCP protocol.
 
-The original implementation has been continued from the preserved WIP checkpoint.
-The current benchmark has 36 versioned scenarios and five deterministic
-infrastructure configurations. C1 prompt safeguards use the separate Inspect AI
-model track. Live inference has **not** been run.
+## Verified synthetic benchmark results
 
-## Measured results
+**Unsafe trials fell from 9/36 under invocation-time authorization (C3) to 0/36
+under atomic effect-boundary authorization (C5), retaining 16/16 legitimate task
+completions.** These are measured outcomes on the same finite synthetic corpus.
+
+| Verification | Recorded result |
+|---|---:|
+| Passing automated tests | **423** (native and offline Docker suites) |
+| In-process coverage | **94.54%** |
+| Actual MCP benchmark trials | **180** |
+| Versioned scenarios | **36** |
+| Targeted mutations detected | **20/20** (11 enforcement + 9 grader) |
+| Consistent replays | **180/180** (170 exact + 10 concurrent invariants) |
+| Independent expected-outcome cases | **100** |
+
+The implementation and final review corrections are merged into public `main`
+through [PR #1](https://github.com/Nitish-Jindal/scopeshift/pull/1). The
+[verification report](reports/verification.md) and
+[verification data](results/verification.json) retain tested revisions, CI links,
+and the distinction between historical and current evidence. The CI badge above
+tracks the latest `main` workflow; the figures here refer to the recorded run.
+Coverage measures the main Python process; subprocess MCP servers are exercised
+by integration tests but are not instrumented in that percentage.
+
+**These are synthetic infrastructure results, not live LLM evaluation results.**
+C1 prompt safeguards use the separate Inspect AI model track, which has been
+fixture-tested. No live-model inference or paid API evaluation has been run.
+
+## Configuration comparison
 
 A complete 180-trial MCP run (36 scenarios × C0/C2/C3/C4/C5) produced:
 
@@ -117,9 +143,10 @@ transaction gap. C0–C4 must remain capable of unsafe synthetic effects.
 The oracle imports no enforcement predicate. It reconstructs policy from ordered
 transitions, checks actual committed effects and final resources, validates the
 hash chain and request protocol, and rejects missing or inconsistent evidence.
-Compensating a resource later does not erase an earlier unsafe effect. Observable
-delivered-context model compliance, effect safety, observed check correctness, utility and integrity
-are separate outputs. Refusing legitimate work does not receive a perfect score.
+Compensating a resource later does not erase an earlier unsafe effect. Model
+compliance based on delivered information, effect safety, observed check correctness,
+utility and evidence integrity are separate outputs. Refusing legitimate work does
+not receive a perfect score.
 
 See [authorization contract](docs/authorization-contract.md),
 [reference model](docs/reference-model.md), [architecture](docs/architecture.md),
@@ -140,7 +167,7 @@ verification must remain enabled. CI runs tests, lint, packaging, MCP demos and
 containers without model API credentials. Remote CI status must be checked on the
 actual pushed commit; adding the workflow alone is not a passing CI run.
 
-## Final independent review corrections
+## Evidence integrity and evaluation methodology
 
 Evidence schema 2 requires explicit versioned modes and trusted external scenario
 contracts; host lifecycle/scheduled transitions are mandatory. Stateful histories
@@ -198,6 +225,6 @@ Multi-hop delegation/cascading revocation remains an explicitly deferred extensi
 [Demo walkthrough](docs/demo-walkthrough.md) · [Related work](docs/related-work.md) ·
 [Full original specification](PROJECT_SPEC.md) · [Current handoff](HANDOFF.md)
 
-The project uses the MIT license for a small, reusable research implementation and
-synthetic fixtures. A permissive license does not change repository visibility;
-the repository remains private pending the owner's review.
+The public research implementation and synthetic fixtures are available under the
+[MIT license](LICENSE). See the [publication review](docs/publication-review.md)
+for repository hygiene checks and historical verification provenance.

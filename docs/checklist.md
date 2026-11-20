@@ -1,6 +1,7 @@
 # ScopeShift delivery checklist
 
-Cloud continuation on 2026-11-20 supersedes the original local handoff pause.
+PR #1 is merged into public `main` as of 2026-11-20. The implementation and
+verification history below records completed work.
 The complete original scope remains in PROJECT_SPEC.md. Evidence is retained
 under results/ and summarized in reports/verification.md.
 
@@ -24,11 +25,12 @@ under results/ and summarized in reports/verification.md.
 - [x] Skeptical self-audit, fixes, native quickstart and installed-wheel verification.
 - [x] README, diagrams, threat model, research/reliability reports, demo and license.
 - [x] Implementation commit 2ca3c1e pushed; full remote SHA verified against local HEAD.
-- [x] Review PR #1 is open; remote CI for 18c50d4 verified successful.
+- [x] Review PR #1 merged into main; remote CI for 18c50d4 verified successful.
 - [x] Final correction source 4683410 pushed; native/container CI passed in both new workflows.
 
-No paid APIs, real effects/data, secrets, visibility changes or merge. Finite
-passing experiments/fuzzing are not a proof of general authorization correctness.
+No paid model APIs or real effects/data were used during verification. The owner
+subsequently merged PR #1 and made the repository public. Finite passing
+experiments/fuzzing are not a proof of general authorization correctness.
 
 ## Independent review correction pass
 
@@ -39,3 +41,11 @@ passing experiments/fuzzing are not a proof of general authorization correctness
 - [x] Boundary-specific metrics and actual delivered model information contexts.
 - [x] Independent 100-case expected admission/effect/safety matrix.
 - [x] Regenerated schema-2 benchmark, reliability artifacts and reports; current remote CI tracked per revision.
+
+## Public-facing documentation cleanup
+
+- [x] Confirm public visibility and PR #1 merge; synchronize main fast-forward-only.
+- [x] Present recorded verification/results prominently and add a main-branch CI badge.
+- [x] Preserve quickstart, architecture, methodology, references and limitations.
+- [x] Review tracked files and full reachable history for credential/sensitive-data exposure.
+- [x] Update current release status without rewriting historical verification records.

@@ -1,4 +1,7 @@
-# Final correctness corrections for ScopeShift PR #1
+# Historical correction summary — ScopeShift PR #1
+
+PR #1 has been merged into public main. The following summarizes the completed
+correction scope and its recorded verification, rather than an open review request.
 
 Require explicit versioned evidence modes, external scenario/history contracts,
 mandatory lifecycle/transition/terminal validation and optimization-safe checks.
@@ -16,5 +19,6 @@ passed. Regenerated 180-trial MCP evidence: unsafe C0/C2/C3/C4/C5 trials
 grader mutants killed; 180/180 replays consistent. Corrected metrics and research
 artifacts are retained. See reports/verification.md for previous/current CI status.
 
-No paid inference, secrets, merge or visibility change. Finite synthetic results
+No paid inference or secret configuration occurred during correction work. The
+owner subsequently merged PR #1 and published the repository. Finite synthetic results
 and bounded fuzzing are not universal security claims.
