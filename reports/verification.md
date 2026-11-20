@@ -28,7 +28,9 @@ is historical and is not silently accepted by the corrected grader.
 - Host lifecycle checks require initialization/snapshot/discovery, generated and
   admitted requests, dispatch/receipt, applicable rechecks/atomic decision evidence,
   attempts and outcomes, terminal responses/completion, and post-commit boundaries.
-  Scheduled transitions must occur exactly after their applicable checkpoints.
+  Unsupported external schedules, mismatched receipt actions and contradictory
+  atomic decisions/outcomes are rejected. Scheduled transitions must occur exactly
+  after their applicable checkpoints.
   Unreachable model/denial paths and pending/superseded stateful requests have
   explicit, validated dispositions.
 - Security-critical production assertions were replaced with explicit checks and
@@ -55,13 +57,13 @@ correctness pass, not a replacement implementation.
 ## Current local and container verification
 
 - Requested `uv run ruff check .` and `uv run ruff format --check .`: passed.
-- Complete `uv run pytest`: **419 passed**, zero failed/skipped, with coverage
-  collection enabled. In-process coverage: **1,596/1,689 statements (94.49%)**.
+- Complete `uv run pytest`: **423 passed**, zero failed/skipped, with coverage
+  collection enabled. In-process coverage: **1,611/1,704 statements (94.54%)**.
   MCP subprocess servers are functionally tested but not instrumented here.
-- Docker build, hardened offline Compose verification: **419 passed**. Expanded
+- Docker build, hardened offline Compose verification: **423 passed**. Expanded
   MCP demo passed. Runtime remains nonroot, read-only, offline and resource-bounded.
 - Targeted regressions ran before the complete suite. New coverage includes 100
-  expected-matrix entries, 33 malformed/lifecycle/history cases, 12 approval cases,
+  expected-matrix entries, 37 malformed/lifecycle/history cases, 12 approval cases,
   three metric-boundary cases and four notification-timing fixtures.
 - The known optimized-Python bypass is directly exercised in a subprocess with
   recomputed hashes and an externally supplied contract, not just bad metadata.
@@ -101,7 +103,7 @@ No paid or live-model inference was run; all Inspect outputs/usage are fixtures.
 - Bounded exploration rerun: **54/54** schedules; eight unsafe fingerprints, none C5.
 - C3 seeded stateful campaign: 64 example/shrink executions, 434 commands, 318
   prefixes; failure minimized to **three commands** and independently replayed.
-- C5 campaign: 62 example/shrink executions, 1,194 commands, **665** distinct
+- C5 campaign: 62 example/shrink executions, 1,194 commands, **652** distinct
   prefixes in this retained run; no counterexample within the 60 × 20 budget.
   Concurrent winners can change prefix fingerprints. Neither finite pass nor
   shrinking minimality within this grammar is a universal proof.
@@ -126,3 +128,9 @@ research comparison and external review of these corrections remain future work.
 See HANDOFF.md, docs/self-audit.md, reports/research.md and reports/reliability.md.
 No project restart, paid API use, unrelated credential access, merge or repository
 publication occurred.
+
+An intermediate correction revision, 31fa782e426f3340f2fed9cdeb5c5b4b18cfe3b7,
+passed 419 local/container tests and both remote CI runs 44746281271 and
+44746272518. The final four guard regressions raise the current suite to 423;
+that intermediate CI success is recorded separately rather than attributed to
+the final guard revision.

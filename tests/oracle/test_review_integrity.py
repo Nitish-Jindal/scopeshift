@@ -173,3 +173,36 @@ def test_fixture_contract_requires_its_authored_policy_history():
     e = evidence_fixture("stale-policy")
     e["events"] = [event for event in e["events"] if event["kind"] != "policy_changed"]
     assert grade(rehash(e))["outcome"] == "invalid"
+
+
+def test_invalid_external_schedule_is_not_legitimately_unreachable(valid):
+    e = copy.deepcopy(valid["evidence"])
+    scenario = copy.deepcopy(valid["scenario"])
+    scenario["schedule"] = [
+        {"at": "unknown_checkpoint", "kind": "revoke", "data": {"id": "g1"}, "visible": False}
+    ]
+    e["events"][0]["payload"]["scenario"] = scenario
+    e["contract_digest"] = digest(scenario)
+    for terminal in (e["events"][0], e["events"][-1]):
+        terminal["payload"]["contract_digest"] = digest(scenario)
+    e["events"][-1]["payload"]["schedule_outcomes"] = [
+        {"index": 0, "status": "unreachable", "reason": "checkpoint_not_reached"}
+    ]
+    assert checked(rehash(e), scenario)["outcome"] == "invalid"
+
+
+def test_receipt_action_must_match_registered_tool(valid):
+    e = copy.deepcopy(valid["evidence"])
+    next(event for event in e["events"] if event["kind"] == "server_receipt")["payload"][
+        "action"
+    ] = "send_message"
+    assert checked(rehash(e), valid["scenario"])["outcome"] == "invalid"
+
+
+@pytest.mark.parametrize("scenario", ["authorized_update", "revoke_after_gateway"])
+def test_atomic_decision_and_terminal_effect_cannot_contradict(scenario, tmp_path):
+    result = run(select(scenario), "C5", tmp_path)
+    e = result["evidence"]
+    decision = next(event for event in e["events"] if event["kind"] == "atomic_decision")
+    decision["payload"]["allowed"] = not decision["payload"]["allowed"]
+    assert checked(rehash(e), result["scenario"])["outcome"] == "invalid"

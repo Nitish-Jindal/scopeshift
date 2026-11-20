@@ -49,3 +49,8 @@ pre-generation delivery contexts and the independent 100-case outcome matrix.
 Previous passing checks remain historical evidence; the revised suite, benchmark,
 reliability campaigns and containers are separately rerun and recorded. PR #1 is
 open and old-revision remote CI succeeded; current CI is tracked per commit.
+
+The final sign-off additionally rejects malformed external checkpoint contracts,
+receipt/action rebinding and contradictions between atomic decision markers and
+commit/block outcomes. Rehashed negative cases exercise each guard; those checks
+are validation, not extra enforcement that repairs baseline security gaps.

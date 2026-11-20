@@ -41,7 +41,7 @@ effect with valid evidence. Its regression and fingerprint are retained in
 `tests/regression/c3-counterexample.json` and `fuzz-c3.json`.
 
 The corresponding C5 bounded campaign used up to 60 examples and 20 rule steps.
-It started 62 example/shrink executions, ran 1,194 semantic commands and saw 665
+It started 62 example/shrink executions, ran 1,194 semantic commands and saw 652
 distinct history prefixes, finding no counterexample. Hypothesis may run auxiliary
 or shrink examples beyond its nominal successful-example budget. These counts
 include replay/shrinking activity; they are not independent benchmark trials.
@@ -80,7 +80,7 @@ new lifecycle checks; skipped-check mutants explicitly record unchecked admissio
 as mutation instrumentation, not a real authorization check.
 
 The rerun retained the same C3 three-command fingerprint and 434 commands. The
-C5 campaign executed 1,194 commands with 665 distinct prefixes in this retained
+C5 campaign executed 1,194 commands with 652 distinct prefixes in this retained
 run; concurrent winning IDs can vary and affect prefix fingerprints, not the
 safety invariant. Historical counts belong to their recorded revisions. See
 results/verification.json for previous/current verification separation.

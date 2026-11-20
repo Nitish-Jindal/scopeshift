@@ -45,6 +45,16 @@ def validate_evidence(evidence, scenario, mode, mutant=None, history=None):
         require(scenario is not None, "trusted external scenario contract required")
         scenario = Scenario.model_validate(scenario).model_dump()
         require(scenario["schema_version"] == 1, "unknown scenario schema")
+        checkpoints = [transition["at"] for transition in scenario["schedule"]]
+        require(all(name in CHECKPOINTS for name in checkpoints), "unknown external checkpoint")
+        positions = [CHECKPOINTS.index(name) for name in checkpoints]
+        require(positions == sorted(positions), "non-causal external schedule")
+        require(1 <= scenario["repeats"] <= 10, "unbounded external request count")
+        require(
+            not scenario["concurrent_requests"]
+            or (scenario["repeats"] == 2 and not scenario["schedule"]),
+            "invalid concurrent contract",
+        )
         scenario_id = scenario["id"]
     require(digest(embedded) == digest(scenario), "embedded scenario differs from trusted contract")
     contract_hash = digest(scenario)
@@ -225,6 +235,7 @@ def validate_lifecycle(events, scenario, mode):
     proposal_ids = set()
     proposals = {}
     recheck_denials = Counter()
+    atomic_admissions, atomic_denials = Counter(), Counter()
     for event in events:
         kind, rid, payload = event["kind"], event["request_id"], event["payload"]
         c = counts[rid]
@@ -289,11 +300,16 @@ def validate_lifecycle(events, scenario, mode):
         if kind == "mcp_dispatch":
             require(sum(decisions[rid]) > c["mcp_dispatch"], "dispatch without admission")
         if kind == "server_receipt":
+            require(payload["action"] == operations[rid]["action"], "server tool/action mismatch")
             prerequisite = c["mcp_dispatch"] if host else sum(decisions[rid])
             require(prerequisite > c["server_receipt"], "receipt without dispatch/admission")
         if kind in {"effect_recheck", "before_effect", "effect_attempt", "idempotent_replay"}:
             require(c["server_receipt"] > 0, "effect lifecycle before server receipt")
         if kind == "atomic_decision":
+            if payload["allowed"]:
+                atomic_admissions[rid] += 1
+            else:
+                atomic_denials[rid] += 1
             require(c["effect_attempt"] > c["atomic_decision"], "atomic decision without attempt")
         if kind == "after_commit":
             require(
@@ -312,8 +328,18 @@ def validate_lifecycle(events, scenario, mode):
                 require(recheck_denials[rid] > early_blocks, "block without failed check/attempt")
                 terminal_statuses[rid]["early_block"] += 1
                 available += 1
+            elif kind == "effect_blocked":
+                require(
+                    atomic_denials[rid] > c["effect_blocked"] - early_blocks,
+                    "blocked effect without a denying atomic decision",
+                )
             require(available > used, "commit/block without unmatched attempt")
         if kind == "effect_committed":
+            if events[0]["config"] == "C5":
+                require(
+                    atomic_admissions[rid] > c["effect_committed"],
+                    "effect committed without an admitting atomic decision",
+                )
             effect_results[payload["effect_id"]] = {
                 "status": "committed",
                 "effect_id": payload["effect_id"],

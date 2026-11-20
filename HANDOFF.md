@@ -22,8 +22,8 @@ committed effects, check errors, task noncompletion and actual delivered model
 information. Unsupported model false-refusal quantities remain null. An
 independent 100-case admission/effect/safety matrix covers the core configurations.
 
-Current local suite: 419 passed; coverage 94.49%. Offline hardened Docker suite:
-419 passed; expanded MCP demo passed. Ruff lint/format passed. Current MCP run:
+Current local suite: 423 passed; coverage 94.54%. Offline hardened Docker suite:
+423 passed; expanded MCP demo passed. Ruff lint/format passed. Current MCP run:
 180/180 valid schema-2 trials; unsafe trial counts C0/C2/C3/C4/C5 = 22/14/9/4/0
 of 36 each; C5 completed 16/16 legitimate tasks. All exports regrade against
 external dataset contracts. All 11 enforcement and nine grader mutants killed;
