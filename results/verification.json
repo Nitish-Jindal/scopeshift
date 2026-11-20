@@ -1,0 +1,39 @@
+{
+  "native_tests": {
+    "passed": 267,
+    "failed": 0,
+    "skipped": 0,
+    "runner": "pytest",
+    "in_process_coverage": {
+      "covered_lines": 1202,
+      "num_statements": 1290,
+      "percent_covered": 93.17829457364341,
+      "percent_covered_display": "93",
+      "missing_lines": 88,
+      "excluded_lines": 0,
+      "percent_statements_covered": 93.17829457364341,
+      "percent_statements_covered_display": "93"
+    }
+  },
+  "container_tests": {
+    "passed": 267,
+    "failed": 0,
+    "runtime": "nonroot, read-only, offline Compose"
+  },
+  "checks": {
+    "ruff": "passed",
+    "ruff_format": "passed",
+    "uv_build": "passed",
+    "noneditable_runtime_wheel": "passed",
+    "container_demo": "passed",
+    "benchmark_mcp_trials": 180,
+    "benchmark_regraded": 180,
+    "serial_exact_replays": 170,
+    "concurrent_invariant_replays": 10,
+    "replays_consistent": 180
+  },
+  "live_model_evaluation": "not run; no paid API authorization",
+  "remote_ci": "unverified; api.github.com blocked",
+  "pull_request": "not created; api.github.com blocked",
+  "privacy": "no visibility changes; no secrets configured"
+}

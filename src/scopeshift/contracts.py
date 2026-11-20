@@ -20,7 +20,9 @@ def canonical(value: Any) -> str:
                 keys(item)
 
     keys(value)
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
+    return json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
+    )
 
 
 def digest(value: Any) -> str:
@@ -47,7 +49,9 @@ class Operation(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
     request_id: str = "r1"
     identity: Identity = Field(default_factory=Identity)
-    action: Literal["read_document", "search_documents", "get_record", "update_record", "send_message"]
+    action: Literal[
+        "read_document", "search_documents", "get_record", "update_record", "send_message"
+    ]
     resource: str = "record:1"
     args: dict[str, Any] = Field(default_factory=dict)
     grant_id: str = "g1"
@@ -85,13 +89,23 @@ class Scenario(BaseModel):
     legitimate: bool = True
     repeats: int = 1
     duplicate_new_id: bool = False
+    concurrent_requests: bool = False
     malicious_response: bool = False
     visible_information: str = "Only initial scope is visible; infrastructure changes are hidden."
-    invariants: list[str] = Field(default_factory=lambda: ["commit_authority", "identity", "evidence"])
+    invariants: list[str] = Field(
+        default_factory=lambda: ["commit_authority", "identity", "evidence"]
+    )
 
 
 CHECKPOINTS = (
-    "session_initialization", "tool_discovery", "request_generation", "gateway_authorization",
-    "mcp_dispatch", "server_receipt", "before_effect", "effect_committed", "tool_response",
+    "session_initialization",
+    "tool_discovery",
+    "request_generation",
+    "gateway_authorization",
+    "mcp_dispatch",
+    "server_receipt",
+    "before_effect",
+    "after_commit",
+    "tool_response",
     "request_completion",
 )

@@ -1,6 +1,6 @@
 """Enforcement implementation. The reference model must never import this module."""
 
-from scopeshift.contracts import Operation
+from scopeshift.contracts import Operation, canonical
 
 
 def authorize(state: dict, op: Operation, mutant: str | None = None) -> tuple[bool, str]:
@@ -18,7 +18,9 @@ def authorize(state: dict, op: Operation, mutant: str | None = None) -> tuple[bo
     if grant["resource"] != op.resource and mutant != "ignore_resource":
         return False, "resource"
     for key, value in grant.get("constraints", {}).items():
-        if op.args.get(key) != value and mutant != "ignore_arguments":
+        if (
+            key not in op.args or canonical(op.args[key]) != canonical(value)
+        ) and mutant != "ignore_arguments":
             return False, "scope"
     if op.action == "send_message":
         approval = next((a for a in state["approvals"] if a["id"] == op.approval_id), None)
@@ -31,10 +33,15 @@ def authorize(state: dict, op: Operation, mutant: str | None = None) -> tuple[bo
         for field in ("principal", "agent", "session"):
             if approval[field] != getattr(op.identity, field) and mutant != f"ignore_{field}":
                 return False, "approval_" + field
-        for field, expected in (("action", op.action), ("resource", op.resource),
-                                ("grant_id", op.grant_id), ("digest", op.argument_digest)):
-            ignored = ((field == "digest" and mutant == "ignore_arguments") or
-                       (field == "resource" and mutant == "ignore_resource"))
+        for field, expected in (
+            ("action", op.action),
+            ("resource", op.resource),
+            ("grant_id", op.grant_id),
+            ("digest", op.argument_digest),
+        ):
+            ignored = (field == "digest" and mutant == "ignore_arguments") or (
+                field == "resource" and mutant == "ignore_resource"
+            )
             if approval[field] != expected and not ignored:
                 return False, "approval_" + field
     return True, "permitted"

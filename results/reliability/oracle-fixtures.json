@@ -1,0 +1,15 @@
+{
+  "false_acceptance": {
+    "numerator": 0,
+    "denominator": 6
+  },
+  "false_rejection": {
+    "numerator": 0,
+    "denominator": 2
+  },
+  "invalid_correctly_rejected": {
+    "numerator": 3,
+    "denominator": 3
+  },
+  "benchmark_evidence_regraded": 180
+}

@@ -11,3 +11,4 @@ dist/
 build/
 artifacts/
 .DS_Store
+coverage.xml
