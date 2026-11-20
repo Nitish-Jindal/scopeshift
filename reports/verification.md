@@ -116,9 +116,10 @@ mistaken for verification of this revision.
 
 ## Limitations and remaining review
 
-No unresolved P0/P1 implementation finding remains in this pass. Remote CI for
-the correction revision is tracked only after pushing, separately from the
-previous successful commit. The fixed model adapter binds one preselected
+No unresolved P0/P1 implementation finding remains in this pass. Both native and container CI jobs passed for correction source
+`4683410e47e785f49bdc824afe6a853499b0245d`, separately from the previous successful
+commit. The verification-record-only follow-up does not change the recorded
+source digest; its final workflow status is checked with the final task SHA. The fixed model adapter binds one preselected
 identity/session/grant/approval and does not implement dynamic grant selection or
 multi-hop delegation. No live-model efficacy/refusal claim is made. Guarantees
 cover local synthetic commitments, not real email/network atomicity, retracting
@@ -134,3 +135,8 @@ passed 419 local/container tests and both remote CI runs 44746281271 and
 44746272518. The final four guard regressions raise the current suite to 423;
 that intermediate CI success is recorded separately rather than attributed to
 the final guard revision.
+
+Final source CI: both [PR workflow 44747732315](https://github.com/Nitish-Jindal/scopeshift/actions/runs/44747732315)
+and [push workflow 44747724360](https://github.com/Nitish-Jindal/scopeshift/actions/runs/44747724360)
+completed successfully for 4683410, including native and container jobs. The source
+digest in results/verification.json is unchanged by this verification-only record.

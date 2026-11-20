@@ -25,7 +25,7 @@ under results/ and summarized in reports/verification.md.
 - [x] README, diagrams, threat model, research/reliability reports, demo and license.
 - [x] Implementation commit 2ca3c1e pushed; full remote SHA verified against local HEAD.
 - [x] Review PR #1 is open; remote CI for 18c50d4 verified successful.
-- [ ] Final review correction revision: push and inspect its new remote CI.
+- [x] Final correction source 4683410 pushed; native/container CI passed in both new workflows.
 
 No paid APIs, real effects/data, secrets, visibility changes or merge. Finite
 passing experiments/fuzzing are not a proof of general authorization correctness.

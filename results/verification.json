@@ -61,9 +61,27 @@
       "concurrent_invariants": 10
     },
     "remote_ci": {
-      "status": "pending_final_guard_revision",
-      "note": "Intermediate 31fa782 CI passed; final guard revision must be checked separately."
-    }
+      "status": "success",
+      "verified_code_commit": "4683410e47e785f49bdc824afe6a853499b0245d",
+      "runs": [
+        {
+          "conclusion": "success",
+          "databaseId": 44747732315,
+          "headSha": "4683410e47e785f49bdc824afe6a853499b0245d",
+          "status": "completed",
+          "url": "https://github.com/Nitish-Jindal/scopeshift/actions/runs/44747732315"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 44747724360,
+          "headSha": "4683410e47e785f49bdc824afe6a853499b0245d",
+          "status": "completed",
+          "url": "https://github.com/Nitish-Jindal/scopeshift/actions/runs/44747724360"
+        }
+      ],
+      "note": "Native and container jobs passed. A subsequent verification-record-only commit preserves this source digest; its final check status is reported with the final task SHA."
+    },
+    "source_commit": "4683410e47e785f49bdc824afe6a853499b0245d"
   },
   "limitations": [
     "No live/paid model evaluation; fixture outputs/usage are synthetic.",

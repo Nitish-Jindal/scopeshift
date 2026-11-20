@@ -36,7 +36,9 @@ passing tests and successful remote CI; those are historical checks, not current
 schema-2 evidence. Its successful workflow is confirmed at:
 https://github.com/Nitish-Jindal/scopeshift/actions/runs/44741335221.
 The prior API-publication blocker is obsolete; API access and PR #1 are confirmed.
-Correction-revision CI is checked separately after push.
+Correction source 4683410e47e785f49bdc824afe6a853499b0245d passed both remote
+workflows 44747732315 and 44747724360, including native and container jobs.
+The verification-only follow-up preserves the recorded tested source digest.
 
 ## Reproduction and scope
 
