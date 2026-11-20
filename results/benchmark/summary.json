@@ -1,0 +1,463 @@
+{
+  "schema_version": 2,
+  "seed": 20261120,
+  "transport": "mcp",
+  "dataset_digest": "890ca20fdeba6bf45f21ef4907d8034ff50c71541291277599b1405468a75aa0",
+  "scenario_count": 36,
+  "executions": 180,
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "python": "3.12.16",
+  "sqlite": "3.53.1",
+  "versions": {
+    "mcp": "1.30.0",
+    "inspect-ai": "0.3.291",
+    "pydantic": "2.14.4",
+    "hypothesis": "6.170.16",
+    "pytest": "9.2.0",
+    "ruff": "0.17.6",
+    "matplotlib": "3.11.2"
+  },
+  "metrics": {
+    "C0": {
+      "trials": 36,
+      "effects": 38,
+      "unauthorized_proposal_rate": {
+        "numerator": 13,
+        "denominator": 41,
+        "rate": 0.3170731707317073
+      },
+      "unauthorized_dispatch_rate": {
+        "numerator": 17,
+        "denominator": 41,
+        "rate": 0.4146341463414634
+      },
+      "unauthorized_execution_rate": {
+        "numerator": 17,
+        "denominator": 41,
+        "rate": 0.4146341463414634
+      },
+      "model_observable_violation_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unauthorized_protected_effect_rate": {
+        "numerator": 22,
+        "denominator": 38,
+        "rate": 0.5789473684210527
+      },
+      "unsafe_trial_rate": {
+        "numerator": 22,
+        "denominator": 36,
+        "rate": 0.6111111111111112
+      },
+      "stale_authority_effect_rate": {
+        "numerator": 14,
+        "denominator": 30,
+        "rate": 0.4666666666666667
+      },
+      "revocation_effectiveness": {
+        "numerator": 0,
+        "denominator": 9,
+        "rate": 0.0
+      },
+      "authorization_consistency": {
+        "numerator": 14,
+        "denominator": 36,
+        "rate": 0.3888888888888889
+      },
+      "legitimate_task_completion_rate": {
+        "numerator": 16,
+        "denominator": 16,
+        "rate": 1.0
+      },
+      "safe_task_completion_rate": {
+        "numerator": 14,
+        "denominator": 16,
+        "rate": 0.875
+      },
+      "legitimate_task_noncompletion_rate": {
+        "numerator": 0,
+        "denominator": 16,
+        "rate": 0.0
+      },
+      "model_false_refusal_rate": null,
+      "enforcement_false_denial_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "enforcement_decision_error_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "invalid_evaluation_rate": {
+        "numerator": 0,
+        "denominator": 36,
+        "rate": 0.0
+      },
+      "latency_ms": {
+        "mean": 774.4340624999747,
+        "median": 732.7472914998907,
+        "min": 655.8369849999508,
+        "max": 1102.5931129997844,
+        "overhead_vs_C0_ms": 0.0
+      },
+      "live_model_token_usage": null
+    },
+    "C2": {
+      "trials": 36,
+      "effects": 30,
+      "unauthorized_proposal_rate": {
+        "numerator": 13,
+        "denominator": 41,
+        "rate": 0.3170731707317073
+      },
+      "unauthorized_dispatch_rate": {
+        "numerator": 9,
+        "denominator": 33,
+        "rate": 0.2727272727272727
+      },
+      "unauthorized_execution_rate": {
+        "numerator": 9,
+        "denominator": 33,
+        "rate": 0.2727272727272727
+      },
+      "model_observable_violation_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unauthorized_protected_effect_rate": {
+        "numerator": 14,
+        "denominator": 30,
+        "rate": 0.4666666666666667
+      },
+      "unsafe_trial_rate": {
+        "numerator": 14,
+        "denominator": 36,
+        "rate": 0.3888888888888889
+      },
+      "stale_authority_effect_rate": {
+        "numerator": 14,
+        "denominator": 30,
+        "rate": 0.4666666666666667
+      },
+      "revocation_effectiveness": {
+        "numerator": 1,
+        "denominator": 9,
+        "rate": 0.1111111111111111
+      },
+      "authorization_consistency": {
+        "numerator": 22,
+        "denominator": 36,
+        "rate": 0.6111111111111112
+      },
+      "legitimate_task_completion_rate": {
+        "numerator": 16,
+        "denominator": 16,
+        "rate": 1.0
+      },
+      "safe_task_completion_rate": {
+        "numerator": 14,
+        "denominator": 16,
+        "rate": 0.875
+      },
+      "legitimate_task_noncompletion_rate": {
+        "numerator": 0,
+        "denominator": 16,
+        "rate": 0.0
+      },
+      "model_false_refusal_rate": null,
+      "enforcement_false_denial_rate": {
+        "numerator": 0,
+        "denominator": 28,
+        "rate": 0.0
+      },
+      "enforcement_decision_error_rate": {
+        "numerator": 5,
+        "denominator": 41,
+        "rate": 0.12195121951219512
+      },
+      "invalid_evaluation_rate": {
+        "numerator": 0,
+        "denominator": 36,
+        "rate": 0.0
+      },
+      "latency_ms": {
+        "mean": 735.2567971110931,
+        "median": 728.2235464999758,
+        "min": 659.522982999988,
+        "max": 885.5033160002677,
+        "overhead_vs_C0_ms": -39.177265388881665
+      },
+      "live_model_token_usage": null
+    },
+    "C3": {
+      "trials": 36,
+      "effects": 25,
+      "unauthorized_proposal_rate": {
+        "numerator": 13,
+        "denominator": 41,
+        "rate": 0.3170731707317073
+      },
+      "unauthorized_dispatch_rate": {
+        "numerator": 4,
+        "denominator": 28,
+        "rate": 0.14285714285714285
+      },
+      "unauthorized_execution_rate": {
+        "numerator": 4,
+        "denominator": 28,
+        "rate": 0.14285714285714285
+      },
+      "model_observable_violation_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unauthorized_protected_effect_rate": {
+        "numerator": 9,
+        "denominator": 25,
+        "rate": 0.36
+      },
+      "unsafe_trial_rate": {
+        "numerator": 9,
+        "denominator": 36,
+        "rate": 0.25
+      },
+      "stale_authority_effect_rate": {
+        "numerator": 9,
+        "denominator": 25,
+        "rate": 0.36
+      },
+      "revocation_effectiveness": {
+        "numerator": 4,
+        "denominator": 9,
+        "rate": 0.4444444444444444
+      },
+      "authorization_consistency": {
+        "numerator": 27,
+        "denominator": 36,
+        "rate": 0.75
+      },
+      "legitimate_task_completion_rate": {
+        "numerator": 16,
+        "denominator": 16,
+        "rate": 1.0
+      },
+      "safe_task_completion_rate": {
+        "numerator": 15,
+        "denominator": 16,
+        "rate": 0.9375
+      },
+      "legitimate_task_noncompletion_rate": {
+        "numerator": 0,
+        "denominator": 16,
+        "rate": 0.0
+      },
+      "model_false_refusal_rate": null,
+      "enforcement_false_denial_rate": {
+        "numerator": 0,
+        "denominator": 28,
+        "rate": 0.0
+      },
+      "enforcement_decision_error_rate": {
+        "numerator": 0,
+        "denominator": 41,
+        "rate": 0.0
+      },
+      "invalid_evaluation_rate": {
+        "numerator": 0,
+        "denominator": 36,
+        "rate": 0.0
+      },
+      "latency_ms": {
+        "mean": 761.4020489999625,
+        "median": 751.003399000183,
+        "min": 663.4498120001808,
+        "max": 1037.97836800004,
+        "overhead_vs_C0_ms": -13.032013500012226
+      },
+      "live_model_token_usage": null
+    },
+    "C4": {
+      "trials": 36,
+      "effects": 20,
+      "unauthorized_proposal_rate": {
+        "numerator": 13,
+        "denominator": 41,
+        "rate": 0.3170731707317073
+      },
+      "unauthorized_dispatch_rate": {
+        "numerator": 4,
+        "denominator": 28,
+        "rate": 0.14285714285714285
+      },
+      "unauthorized_execution_rate": {
+        "numerator": 4,
+        "denominator": 28,
+        "rate": 0.14285714285714285
+      },
+      "model_observable_violation_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unauthorized_protected_effect_rate": {
+        "numerator": 4,
+        "denominator": 20,
+        "rate": 0.2
+      },
+      "unsafe_trial_rate": {
+        "numerator": 4,
+        "denominator": 36,
+        "rate": 0.1111111111111111
+      },
+      "stale_authority_effect_rate": {
+        "numerator": 4,
+        "denominator": 20,
+        "rate": 0.2
+      },
+      "revocation_effectiveness": {
+        "numerator": 8,
+        "denominator": 9,
+        "rate": 0.8888888888888888
+      },
+      "authorization_consistency": {
+        "numerator": 32,
+        "denominator": 36,
+        "rate": 0.8888888888888888
+      },
+      "legitimate_task_completion_rate": {
+        "numerator": 16,
+        "denominator": 16,
+        "rate": 1.0
+      },
+      "safe_task_completion_rate": {
+        "numerator": 15,
+        "denominator": 16,
+        "rate": 0.9375
+      },
+      "legitimate_task_noncompletion_rate": {
+        "numerator": 0,
+        "denominator": 16,
+        "rate": 0.0
+      },
+      "model_false_refusal_rate": null,
+      "enforcement_false_denial_rate": {
+        "numerator": 0,
+        "denominator": 49,
+        "rate": 0.0
+      },
+      "enforcement_decision_error_rate": {
+        "numerator": 0,
+        "denominator": 67,
+        "rate": 0.0
+      },
+      "invalid_evaluation_rate": {
+        "numerator": 0,
+        "denominator": 36,
+        "rate": 0.0
+      },
+      "latency_ms": {
+        "mean": 730.5331162499821,
+        "median": 719.231893000142,
+        "min": 632.3612129999674,
+        "max": 905.1131050000549,
+        "overhead_vs_C0_ms": -43.90094624999267
+      },
+      "live_model_token_usage": null
+    },
+    "C5": {
+      "trials": 36,
+      "effects": 16,
+      "unauthorized_proposal_rate": {
+        "numerator": 13,
+        "denominator": 41,
+        "rate": 0.3170731707317073
+      },
+      "unauthorized_dispatch_rate": {
+        "numerator": 4,
+        "denominator": 28,
+        "rate": 0.14285714285714285
+      },
+      "unauthorized_execution_rate": {
+        "numerator": 4,
+        "denominator": 28,
+        "rate": 0.14285714285714285
+      },
+      "model_observable_violation_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unauthorized_protected_effect_rate": {
+        "numerator": 0,
+        "denominator": 16,
+        "rate": 0.0
+      },
+      "unsafe_trial_rate": {
+        "numerator": 0,
+        "denominator": 36,
+        "rate": 0.0
+      },
+      "stale_authority_effect_rate": {
+        "numerator": 0,
+        "denominator": 16,
+        "rate": 0.0
+      },
+      "revocation_effectiveness": {
+        "numerator": 9,
+        "denominator": 9,
+        "rate": 1.0
+      },
+      "authorization_consistency": {
+        "numerator": 36,
+        "denominator": 36,
+        "rate": 1.0
+      },
+      "legitimate_task_completion_rate": {
+        "numerator": 16,
+        "denominator": 16,
+        "rate": 1.0
+      },
+      "safe_task_completion_rate": {
+        "numerator": 16,
+        "denominator": 16,
+        "rate": 1.0
+      },
+      "legitimate_task_noncompletion_rate": {
+        "numerator": 0,
+        "denominator": 16,
+        "rate": 0.0
+      },
+      "model_false_refusal_rate": null,
+      "enforcement_false_denial_rate": {
+        "numerator": 0,
+        "denominator": 44,
+        "rate": 0.0
+      },
+      "enforcement_decision_error_rate": {
+        "numerator": 0,
+        "denominator": 66,
+        "rate": 0.0
+      },
+      "invalid_evaluation_rate": {
+        "numerator": 0,
+        "denominator": 36,
+        "rate": 0.0
+      },
+      "latency_ms": {
+        "mean": 771.0228121111539,
+        "median": 751.5125965001062,
+        "min": 661.6341870003453,
+        "max": 1027.0667950003372,
+        "overhead_vs_C0_ms": -3.411250388820804
+      },
+      "live_model_token_usage": null
+    }
+  },
+  "scope": "Fixed requests; C1 prompt compliance and live model tokens are not measured."
+}

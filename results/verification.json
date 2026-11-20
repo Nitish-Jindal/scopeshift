@@ -1,0 +1,105 @@
+{
+  "schema_version": 2,
+  "pull_request": {
+    "number": 1,
+    "url": "https://github.com/Nitish-Jindal/scopeshift/pull/1",
+    "state": "open"
+  },
+  "previous_verification": {
+    "commit": "18c50d46aa21825cb231b6c580dbd3f68a9a3771",
+    "native_tests_passed": 267,
+    "container_tests_passed": 267,
+    "evidence_schema": 1,
+    "remote_ci": {
+      "status": "success",
+      "observed_run_ids": [
+        44741335221,
+        44688178065
+      ],
+      "url": "https://github.com/Nitish-Jindal/scopeshift/actions/runs/44741335221"
+    },
+    "scope": "Historical verification; incompatible schema-1 evidence is not current verification."
+  },
+  "current_verification": {
+    "source_digest_sha256": "ec5f31ed05b77c62bcf52e2aa1e11f906faceb1e2031e733559ae73625fd1f15",
+    "native_tests": {
+      "passed": 423,
+      "failed": 0,
+      "skipped": 0,
+      "coverage": {
+        "covered_lines": 1611,
+        "num_statements": 1704,
+        "percent_covered": 94.54225352112677,
+        "percent_covered_display": "95",
+        "missing_lines": 93,
+        "excluded_lines": 0,
+        "percent_statements_covered": 94.54225352112677,
+        "percent_statements_covered_display": "95"
+      }
+    },
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "docker": {
+      "build": "passed",
+      "offline_tests_passed": 423,
+      "expanded_demo": "passed"
+    },
+    "evidence_schema": 2,
+    "mcp_trials": 180,
+    "externally_bound_regraded": 180,
+    "expected_matrix_cases": 100,
+    "mutations": {
+      "gateway_killed": 11,
+      "gateway_evaluated": 11,
+      "grader_killed": 9,
+      "grader_evaluated": 9
+    },
+    "replay": {
+      "consistent": 180,
+      "executions": 180,
+      "exact_serial_ledgers": 170,
+      "concurrent_invariants": 10
+    },
+    "remote_ci": {
+      "status": "success",
+      "verified_code_commit": "4683410e47e785f49bdc824afe6a853499b0245d",
+      "runs": [
+        {
+          "conclusion": "success",
+          "databaseId": 44747732315,
+          "headSha": "4683410e47e785f49bdc824afe6a853499b0245d",
+          "status": "completed",
+          "url": "https://github.com/Nitish-Jindal/scopeshift/actions/runs/44747732315"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 44747724360,
+          "headSha": "4683410e47e785f49bdc824afe6a853499b0245d",
+          "status": "completed",
+          "url": "https://github.com/Nitish-Jindal/scopeshift/actions/runs/44747724360"
+        }
+      ],
+      "note": "Native and container jobs passed. A subsequent verification-record-only commit preserves this source digest; its final check status is reported with the final task SHA."
+    },
+    "source_commit": "4683410e47e785f49bdc824afe6a853499b0245d"
+  },
+  "limitations": [
+    "No live/paid model evaluation; fixture outputs/usage are synthetic.",
+    "Finite grammar and targeted mutations are not security proofs.",
+    "Trusted observer/external scenario contracts are not protection against a compromised host.",
+    "Model adapter binds one preselected identity/session/grant/approval.",
+    "Model false-refusal metrics are null; fixed noncompletion is not an LLM refusal."
+  ],
+  "privacy": "Repository visibility unchanged; no merge, paid API use or secret configuration.",
+  "intermediate_verification": {
+    "commit": "31fa782e426f3340f2fed9cdeb5c5b4b18cfe3b7",
+    "native_and_container_tests_passed": 419,
+    "remote_ci": {
+      "status": "success",
+      "observed_run_ids": [
+        44746281271,
+        44746272518
+      ]
+    }
+  }
+}
