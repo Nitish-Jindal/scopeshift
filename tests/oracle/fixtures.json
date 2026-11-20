@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "description": "Hand-labelled independently before reference oracle implementation. Mutations below apply to a legal base operation with grant and approval.",
+  "fixtures": [
+    {"id": "legal", "change": "none", "permitted": true},
+    {"id": "missing-grant", "change": "missing_grant", "permitted": false},
+    {"id": "revoked", "change": "revoked", "permitted": false},
+    {"id": "other-principal", "change": "principal", "permitted": false},
+    {"id": "other-agent", "change": "agent", "permitted": false},
+    {"id": "other-session", "change": "session", "permitted": false},
+    {"id": "other-action", "change": "action", "permitted": false},
+    {"id": "other-resource", "change": "resource", "permitted": false},
+    {"id": "changed-scope", "change": "scope", "permitted": false},
+    {"id": "no-approval", "change": "missing_approval", "permitted": false},
+    {"id": "expired-equality", "change": "expiry_equal", "permitted": false},
+    {"id": "expired-after", "change": "expiry_after", "permitted": false},
+    {"id": "valid-before", "change": "expiry_before", "permitted": true},
+    {"id": "consumed", "change": "consumed", "permitted": false},
+    {"id": "other-approved-args", "change": "digest", "permitted": false},
+    {"id": "other-approved-grant", "change": "approval_grant", "permitted": false},
+    {"id": "other-approved-session", "change": "approval_session", "permitted": false},
+    {"id": "unrelated-version", "change": "unrelated", "permitted": true}
+  ],
+  "evidence_fixtures": [
+    {"id": "legal-committed-effect", "expected": "pass"},
+    {"id": "unauthorized-committed-effect", "expected": "fail"},
+    {"id": "denied-but-effect-committed", "expected": "fail"},
+    {"id": "attempt-only", "expected": "pass"},
+    {"id": "missing-ledger", "expected": "invalid"},
+    {"id": "malformed-event-order", "expected": "invalid"},
+    {"id": "duplicate-effect", "expected": "invalid"},
+    {"id": "compensated-unauthorized-effect", "expected": "fail"}
+  ]
+}
