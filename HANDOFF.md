@@ -63,8 +63,9 @@ No model secrets or runtime network are required.
 
 ## Publication and limitations
 
-No merge or visibility change is authorized. The complete review changes and
-PR body are prepared; see docs/review-pr.md. Native Git works, but api.github.com
+No merge or visibility change is authorized. The implementation commit
+2ca3c1e3f924b0c77e35821a336b7183e4c8e567 was pushed successfully and its remote
+SHA verified. The complete review changes and PR body are prepared; see docs/review-pr.md. Native Git works, but api.github.com
 is currently rejected by the environment network policy. A restricted-domain
 addition for api.github.com was saved in environment settings without adding
 secrets or removing package-manager access. Saving it does not apply it to the

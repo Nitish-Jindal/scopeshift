@@ -35,5 +35,11 @@
   "live_model_evaluation": "not run; no paid API authorization",
   "remote_ci": "unverified; api.github.com blocked",
   "pull_request": "not created; api.github.com blocked",
-  "privacy": "no visibility changes; no secrets configured"
+  "privacy": "no visibility changes; no secrets configured",
+  "remote_git": {
+    "status": "pushed and remote SHA verified",
+    "implementation_commit": "2ca3c1e3f924b0c77e35821a336b7183e4c8e567",
+    "branch": "codex/scopeshift-complete-mvp"
+  },
+  "publication_blocker": "Runtime CONNECT/API requests to api.github.com forbidden; allowlist addition saved but not applied. PR connector/browser unavailable."
 }

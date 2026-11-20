@@ -144,8 +144,10 @@ and writable cache settings. README contains all CLI and model-track commands.
 ## Git and review publication
 
 Branch: `codex/scopeshift-complete-mvp`; base checkpoint:
-`c9634cf8a2c2bea26db57658bf689b334f453862`. The final commit hash is supplied by the
-final task report and `git log -1`. Review body is prepared at docs/review-pr.md.
+`c9634cf8a2c2bea26db57658bf689b334f453862`. The implementation commit
+`2ca3c1e3f924b0c77e35821a336b7183e4c8e567` was successfully pushed and its full
+remote SHA matched local HEAD. Later documentation-only follow-ups are identified
+by the final task report and `git log -1`. Review body is prepared at docs/review-pr.md.
 No PR number/link is fabricated. No merge, release or visibility change occurred.
 The repository remains private by preserving its existing visibility.
 
@@ -154,3 +156,9 @@ benchmark combining real MCP communication, temporal policy schedules,
 transactional synthetic effects, independent grading, targeted mutations and
 stateful counterexample discovery/replay, with separately measured safety,
 utility and evidence integrity.
+
+Publication attempt evidence: `gh pr create` failed at the GitHub GraphQL request
+with Forbidden; `gh run list` failed at the Actions REST request with Forbidden.
+No supported PR connector or browser tool is available in this runtime. The
+required api.github.com network addition is saved but not applied. The PR body is
+ready in docs/review-pr.md; no PR was created and remote CI remains unverified.

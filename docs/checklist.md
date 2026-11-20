@@ -23,7 +23,7 @@ under results/ and summarized in reports/verification.md.
 - [x] Credential-free GitHub Actions workflow implemented; local equivalents run.
 - [x] Skeptical self-audit, fixes, native quickstart and installed-wheel verification.
 - [x] README, diagrams, threat model, research/reliability reports, demo and license.
-- [ ] Review commit pushed and remote SHA verified (record actual result below).
+- [x] Implementation commit 2ca3c1e pushed; full remote SHA verified against local HEAD.
 - [ ] Review PR created and actual remote CI inspected; currently GitHub API blocked.
 
 No paid APIs, real effects/data, secrets, visibility changes or merge. Finite
